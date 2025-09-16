@@ -66,7 +66,6 @@
 
         /* Modal styling */
         .modal {
-            /* Le modal est caché par défaut et s'affichera via JS */
             display: none;
             position: fixed;
             z-index: 100;
@@ -77,13 +76,11 @@
             overflow: auto;
             background-color: rgba(0, 0, 0, 0.7);
             animation: fadeIn 0.3s;
-            /* Centrage parfait du contenu */
             align-items: center;
             justify-content: center;
         }
 
         .modal-content {
-            /* Dégradé de bleu nuit premium et filet lumineux blanc cassé */
             background: linear-gradient(145deg, #1A202C, #2C3E50);
             margin: 0;
             padding: 30px;
@@ -134,7 +131,6 @@
             align-items: center;
             gap: 1rem;
             padding: 0.5rem 1rem;
-            /* Nouveau dégradé pour le fond du sommaire */
             background: linear-gradient(145deg, #1472D3, #C833A5, #F0C419);
             border-radius: 10px;
             transition: background 0.2s ease-in-out;
@@ -152,7 +148,35 @@
             height: 1.25rem;
             border-radius: 0.25rem;
             cursor: pointer;
-            accent-color: #FF6600; /* Orange peps */
+            accent-color: #FF6600;
+        }
+
+        /* Progress Bar styles */
+        .progress-bar-container {
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #ff00ff; /* Fuchsia */
+            border-radius: 10px;
+            transition: width 0.5s ease-in-out;
+            box-shadow: 0 0 10px #ff00ff;
+        }
+        
+        .progress-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            line-height: 20px;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #000;
         }
     </style>
 </head>
@@ -166,6 +190,12 @@
             <p class="text-lg text-gray-300">
                 L'essentiel des sessions pour notre groupe
             </p>
+            <div id="progress-container" class="mt-4 mb-4">
+                <div id="progress-text" class="text-lg text-center font-bold text-gray-200">0%</div>
+                <div class="progress-bar-container">
+                    <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+                </div>
+            </div>
             <div class="mt-8 flex flex-col justify-center items-center space-y-4">
                 <p class="text-xl font-semibold text-yellow-300">
                     Découvrez nos espaces de discussion : clique ici, tu vas adorer !
@@ -314,6 +344,8 @@
         const modalDate = document.getElementById('modal-date');
         const modalSpeaker = document.getElementById('modal-speaker');
         const modalLink = document.getElementById('modal-link');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
 
         const emojiMap = {
             "administration du personnel": "💼",
@@ -401,6 +433,20 @@
             const speakers = data.map(session => session.intervenant);
             return [...new Set(speakers)].sort();
         }
+
+        function updateProgressBar() {
+            const totalVideos = data.length;
+            let completedVideos = 0;
+            data.forEach(session => {
+                const sessionId = `${session.intervenant}-${session.titre}`;
+                if (localStorage.getItem(sessionId) === 'true') {
+                    completedVideos++;
+                }
+            });
+            const percentage = totalVideos > 0 ? Math.round((completedVideos / totalVideos) * 100) : 0;
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `${percentage}%`;
+        }
         
         function renderDropdown() {
             const speakers = getUniqueSpeakers();
@@ -457,6 +503,7 @@
                     checkbox.checked = isChecked;
                     checkbox.addEventListener('change', (e) => {
                         localStorage.setItem(sessionId, e.target.checked);
+                        updateProgressBar();
                     });
 
                     const titleAndDate = document.createElement('div');
@@ -501,6 +548,7 @@
                     checkbox.checked = isChecked;
                     checkbox.addEventListener('change', (e) => {
                         localStorage.setItem(sessionId, e.target.checked);
+                        updateProgressBar();
                     });
 
                     const titleAndDate = document.createElement('div');
@@ -543,6 +591,7 @@
         window.onload = function() {
             renderDropdown();
             renderSpeakerCards();
+            updateProgressBar();
         }
     </script>
 </body>
