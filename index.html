@@ -35,33 +35,6 @@
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
-        .nav-button {
-            transition: all 0.3s ease-in-out;
-            border-bottom: 3px solid transparent;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-        }
-
-        .nav-button.active {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-color: #E2E8F0;
-            text-shadow: 0 0 10px #E2E8F0;
-        }
-
-        .nav-button:hover {
-            transform: scale(1.05);
-        }
-
-        .session-item {
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .session-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-        }
-
         .shine-effect {
             position: relative;
             overflow: hidden;
@@ -149,6 +122,32 @@
                 opacity: 1;
             }
         }
+
+        /* Sommaire specific styles */
+        .sommaire-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: background 0.2s ease-in-out;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sommaire-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .sommaire-item input[type="checkbox"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            accent-color: #FF6600; /* Orange peps */
+        }
     </style>
 </head>
 <body class="text-white min-h-screen p-4 flex flex-col items-center">
@@ -188,11 +187,21 @@
             </div>
         </header>
 
-        <div id="tabs-container" class="flex flex-wrap justify-center mb-8 gap-4">
-            <!-- Boutons d'intervenants générés par JS -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-center text-gray-200 mb-6">Parcourir les vidéos par intervenant</h2>
+            <div id="speaker-cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Speaker cards will be generated here -->
+            </div>
+        </section>
+
+        <div class="flex flex-col items-center mb-8 gap-4">
+            <label for="speaker-select" class="text-lg font-bold text-gray-300">Trier par :</label>
+            <select id="speaker-select" class="premium-card bg-gray-800 text-white p-3 rounded-full w-full max-w-sm cursor-pointer border border-white/20 transition-all duration-300 hover:border-fuchsia-400">
+                <!-- Options générées par JS -->
+            </select>
         </div>
 
-        <div id="sessions-container" class="grid gap-6">
+        <div id="sessions-container" class="grid gap-4">
             <!-- Contenu des sessions généré par JS -->
         </div>
 
@@ -206,7 +215,6 @@
                    class="inline-block bg-fuchsia-600 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg hover:bg-fuchsia-700 transition-colors duration-300 shine-effect mt-4">
                     Accéder au Live
                 </a>
-                
             </div>
         </div>
     </main>
@@ -273,7 +281,6 @@
             { intervenant: "Maud BAUDOIN", date: "26/03/2024", titre: "Calcul des IJSS et cas pratique", lien: "https://app.comptalia.com/v3/events/66359/stream" },
             { intervenant: "Maud BAUDOIN", date: "25/03/2024", titre: "Calcul du maintien de salaire et cas pratique", lien: "https://app.comptalia.com/v3/events/66354/stream" },
             { intervenant: "Maud BAUDOIN", date: "12/03/2024", titre: "Congés payés et ICP / Cas pratique", lien: "https://app.comptalia.com/v3/events/65534/stream?type=0" },
-            { intervenant: "Maud BAUDOIN", date: "01/03/2024", titre: "Les heures supplémentaires / complémentaires", lien: "https://app.comptalia.com/v3/events/65341/stream?type=0" },
             { intervenant: "Brigitte VENANCIO", date: "22/05/2025", titre: "PAIE : Primes, Avantages en Nature, Frais professionnel et titres restaurant", lien: "https://app.comptalia.com/v3/events/83406/stream?type=0" },
             { intervenant: "Brigitte VENANCIO", date: "05/05/2025", titre: "Gestion administrative liée au départ des salariés", lien: "https://app.comptalia.com/v3/events/83407/stream?type=0" },
             { intervenant: "Brigitte VENANCIO", date: "17/04/2025", titre: "Gestion administrative liée aux procédures de licenciement et rupture", lien: "https://app.comptalia.com/v3/events/83408/stream?type=0" },
@@ -294,13 +301,84 @@
             { intervenant: "Brigitte VENANCIO", date: "05/02/2024", titre: "PAIE : Gestion administrative liée à l'embauche", lien: "https://app.comptalia.com/v3/events/64488/stream?type=0" },
         ];
 
-        const tabsContainer = document.getElementById('tabs-container');
+        const speakerSelect = document.getElementById('speaker-select');
         const sessionsContainer = document.getElementById('sessions-container');
         const sessionModal = document.getElementById('session-modal');
         const modalTitle = document.getElementById('modal-title');
         const modalDate = document.getElementById('modal-date');
         const modalSpeaker = document.getElementById('modal-speaker');
         const modalLink = document.getElementById('modal-link');
+
+        const emojiMap = {
+            "administration du personnel": "💼",
+            "déploiement de la stratégie rh": "🎯",
+            "filière rh": "📈",
+            "l'inspection du travail": "🧐",
+            "l'urssaf et le controle urssaf": "💰",
+            "la grève et le lock-out": "✊",
+            "la rédaction du contrat de travail": "✍️",
+            "la rupture conventionnelle": "🤝",
+            "le comité social et économique": "🗣️",
+            "le contrat de travail temporaire": "⏱️",
+            "les instances représentatives du personnel": "📊",
+            "management du service ressources humaines": "👩‍💼",
+            "pilotage de l'administration du personnel": "🚀",
+            "piloter la performance des rh": "🏆",
+            "bulletins modèles": "🧾",
+            "l'environnement sage": "🖥️",
+            "sage paie": "💻",
+            "bases de cotisations et charges sociales": "📊",
+            "notion de base en paie": "📚",
+            "net social": "💡",
+            "prélèvement à la source": "💸",
+            "les composants du brut": "➕",
+            "rapprochement paie - comptabilité": "🔎",
+            "les paies spécifiques": "✨",
+            "gestion de paie": "✅",
+            "réduction générale de cotisations patronales": "📉",
+            "calcul de l'indemnité": "⚖️",
+            "calcul des ijss et cas pratiques": "🏥",
+            "calcul du maintien de salaire": "🛡️",
+            "rémunération brute": "💵",
+            "heures supplémentaires": "⏰",
+            "temps partiel": "⏳",
+            "bases de calcul des cotisations sociales": "🧮",
+            "retenue pour absence": "❌",
+            "congés payés": "☀️",
+            "gestion des absences": "🗓️",
+            "déclaration accident du travail": "🚨",
+            "primes, avantages en nature, frais professionnel": "🎁"
+        };
+        
+        const speakerColors = {
+            "Christèle LECOINTE": "bg-blue-600",
+            "Anaïs Rehibi": "bg-fuchsia-600",
+            "Dimitri Niepceron": "bg-yellow-600",
+            "Henda Ben Jedla": "bg-red-600",
+            "Sophie MARTINEZ": "bg-green-600",
+            "Maud BAUDOIN": "bg-purple-600",
+            "Brigitte VENANCIO": "bg-orange-600"
+        };
+
+        const speakerIcons = {
+            "Christèle LECOINTE": "👩‍💼",
+            "Anaïs Rehibi": "👩‍💻",
+            "Dimitri Niepceron": "👨‍💻",
+            "Henda Ben Jedla": "👩‍🔬",
+            "Sophie MARTINEZ": "👩‍🏫",
+            "Maud BAUDOIN": "👩‍⚖️",
+            "Brigitte VENANCIO": "👩‍⚕️"
+        };
+        
+        function getEmoji(title) {
+            const lowerTitle = title.toLowerCase();
+            for (const key in emojiMap) {
+                if (lowerTitle.includes(key)) {
+                    return emojiMap[key];
+                }
+            }
+            return "🎥";
+        }
 
         function formatDate(dateStr) {
             const [day, month, year] = dateStr.split('/');
@@ -309,29 +387,88 @@
             return date.toLocaleDateString('fr-FR', options);
         }
 
-        function getUniqueSpeakers() {
-            const speakers = data.map(session => session.intervenant);
-            return [...new Set(speakers)];
+        function formatTitle(title) {
+            return title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
         }
 
-        function renderTabs() {
+        function getUniqueSpeakers() {
+            const speakers = data.map(session => session.intervenant);
+            return [...new Set(speakers)].sort();
+        }
+        
+        function renderDropdown() {
             const speakers = getUniqueSpeakers();
-            tabsContainer.innerHTML = '';
-            speakers.forEach((speaker, index) => {
-                const button = document.createElement('button');
-                button.textContent = speaker;
-                button.className = `nav-button py-2 px-6 rounded-full font-bold text-lg transition-colors duration-300 ${index === 0 ? 'active' : 'text-white/70 hover:text-white'}`;
-                button.setAttribute('data-speaker', speaker);
-                button.addEventListener('click', () => {
-                    document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
-                    button.classList.add('active');
-                    renderSessions(speaker);
-                });
-                tabsContainer.appendChild(button);
+            speakerSelect.innerHTML = `<option value="Sommaire" selected>Sommaire</option>`;
+            speakers.forEach(speaker => {
+                const option = document.createElement('option');
+                option.value = speaker;
+                option.textContent = speaker;
+                speakerSelect.appendChild(option);
             });
-            // Afficher le premier intervenant par défaut
-            if (speakers.length > 0) {
-                renderSessions(speakers[0]);
+            speakerSelect.addEventListener('change', (e) => {
+                if (e.target.value === 'Sommaire') {
+                    renderAllSessions();
+                } else {
+                    renderSessions(e.target.value);
+                }
+            });
+            renderAllSessions();
+        }
+
+        function renderSpeakerCards() {
+            const speakersContainer = document.getElementById('speaker-cards-container');
+            const speakers = getUniqueSpeakers();
+            speakers.forEach(speaker => {
+                const card = document.createElement('div');
+                card.className = `${speakerColors[speaker]} p-6 rounded-lg shadow-lg cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-2xl text-center flex flex-col items-center`;
+                card.innerHTML = `
+                    <div class="text-4xl mb-4">${speakerIcons[speaker] || '👤'}</div>
+                    <h3 class="text-xl font-bold">${speaker}</h3>
+                `;
+                card.addEventListener('click', () => {
+                    speakerSelect.value = speaker;
+                    renderSessions(speaker);
+                    window.scrollTo({ top: document.getElementById('sessions-container').offsetTop - 20, behavior: 'smooth' });
+                });
+                speakersContainer.appendChild(card);
+            });
+        }
+
+        function renderAllSessions() {
+            const sessions = [...data].sort((a, b) => a.titre.localeCompare(b.titre));
+            sessionsContainer.innerHTML = '';
+            
+            if (sessions.length > 0) {
+                sessions.forEach(session => {
+                    const sessionId = `${session.intervenant}-${session.titre}`;
+                    const isChecked = localStorage.getItem(sessionId) === 'true';
+
+                    const sessionElement = document.createElement('div');
+                    sessionElement.className = 'sommaire-item';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.checked = isChecked;
+                    checkbox.addEventListener('change', (e) => {
+                        localStorage.setItem(sessionId, e.target.checked);
+                    });
+
+                    const titleAndDate = document.createElement('div');
+                    titleAndDate.className = 'flex-grow text-sm flex items-center gap-2';
+                    const emoji = getEmoji(session.titre);
+                    titleAndDate.innerHTML = `<span class="text-xl">${emoji}</span><span class="font-bold">${formatTitle(session.titre)}</span> - <span>${formatDate(session.date)}</span>`;
+                    
+                    sessionElement.appendChild(checkbox);
+                    sessionElement.appendChild(titleAndDate);
+                    sessionElement.addEventListener('click', (e) => {
+                        if (e.target.tagName.toLowerCase() !== 'input') {
+                            openModal(session);
+                        }
+                    });
+                    sessionsContainer.appendChild(sessionElement);
+                });
+            } else {
+                sessionsContainer.innerHTML = `<p class="text-center text-gray-400 text-lg">Aucune session trouvée.</p>`;
             }
         }
 
@@ -339,20 +476,39 @@
             const sessions = data.filter(session => session.intervenant === speakerName).sort((a, b) => {
                 const [dayA, monthA, yearA] = a.date.split('/');
                 const [dayB, monthB, yearB] = b.date.split('/');
-                return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
+                const dateA = new Date(yearA, monthA - 1, dayA);
+                const dateB = new Date(yearB, monthB - 1, dayB);
+                return dateB - dateA;
             });
             sessionsContainer.innerHTML = '';
 
             if (sessions.length > 0) {
                 sessions.forEach(session => {
+                    const sessionId = `${session.intervenant}-${session.titre}`;
+                    const isChecked = localStorage.getItem(sessionId) === 'true';
+                    
                     const sessionElement = document.createElement('div');
-                    sessionElement.className = 'session-item p-6 rounded-xl border border-white/20 shadow-lg';
-                    sessionElement.innerHTML = `
-                        <h3 class="text-xl font-bold text-yellow-300">${session.titre}</h3>
-                        <p class="text-gray-300 mt-2"><strong>Date :</strong> ${formatDate(session.date)}</p>
-                        <p class="text-gray-400"><strong>Intervenant :</strong> ${session.intervenant}</p>
-                    `;
-                    sessionElement.addEventListener('click', () => openModal(session));
+                    sessionElement.className = 'sommaire-item';
+                    
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.checked = isChecked;
+                    checkbox.addEventListener('change', (e) => {
+                        localStorage.setItem(sessionId, e.target.checked);
+                    });
+
+                    const titleAndDate = document.createElement('div');
+                    titleAndDate.className = 'flex-grow text-sm flex items-center gap-2';
+                    const emoji = getEmoji(session.titre);
+                    titleAndDate.innerHTML = `<span class="text-xl">${emoji}</span><span class="font-bold">${formatTitle(session.titre)}</span> - <span>${formatDate(session.date)}</span>`;
+
+                    sessionElement.appendChild(checkbox);
+                    sessionElement.appendChild(titleAndDate);
+                    sessionElement.addEventListener('click', (e) => {
+                        if (e.target.tagName.toLowerCase() !== 'input') {
+                            openModal(session);
+                        }
+                    });
                     sessionsContainer.appendChild(sessionElement);
                 });
             } else {
@@ -379,7 +535,8 @@
         };
 
         window.onload = function() {
-            renderTabs();
+            renderDropdown();
+            renderSpeakerCards();
         }
     </script>
 </body>
