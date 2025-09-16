@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographie Interactive des Lives Paie</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #FF6600, #F0C419, #C833A5, #8B0000, #000080, #1472D3);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+        }
+
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .premium-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .nav-button {
+            transition: all 0.3s ease-in-out;
+            border-bottom: 3px solid transparent;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-button.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #E2E8F0;
+            text-shadow: 0 0 10px #E2E8F0;
+        }
+
+        .nav-button:hover {
+            transform: scale(1.05);
+        }
+
+        .session-item {
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .session-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease-in-out;
+        }
+
+        .shine-effect:hover::before {
+            left: 100%;
+        }
+
+        .link-glow {
+            box-shadow: 0 0 5px #fff, inset 0 0 5px #fff;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .link-glow:hover {
+            box-shadow: 0 0 15px #fff, inset 0 0 15px #fff;
+        }
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background-color: #0d1117;
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+            border: 1px solid #333;
+            max-width: 600px;
+            animation: slideIn 0.3s;
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #fff;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="text-white min-h-screen p-4 flex flex-col items-center">
+
+    <main class="w-full max-w-5xl my-8 p-6 lg:p-12 premium-card">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl lg:text-5xl font-extrabold mb-4" style="text-shadow: 0 0 10px #FFD700;">
+                Calendrier des Lives Studi RH & Paie
+            </h1>
+            <p class="text-lg text-gray-300">
+                L'essentiel des sessions pour notre groupe
+            </p>
+            <div class="mt-8 flex flex-col justify-center items-center space-y-4">
+                <p class="text-xl font-semibold text-yellow-300">
+                    Découvrez nos espaces de discussion : clique ici, tu vas adorer !
+                </p>
+                <a href="https://projettechacademy.github.io/Suivi-et-Revision-des-Competences-Gestionnaire-de-Paie/"
+                    target="_blank"
+                    class="bg-orange-500 text-white font-bold py-1.5 px-4 rounded-full text-base shadow-lg hover:shadow-2xl transition-all duration-300 shine-effect link-glow w-full text-center">
+                    🌟 Graduate Gestionnaire de Paie : One Way Ticket to Success (Program • Suivi • Révision • Éval)
+                </a>
+                <a href="https://chat.whatsapp.com/EtV0ux5ipAG5JDhopzo0ut"
+                    target="_blank"
+                    class="bg-green-600 text-white font-bold py-1.5 px-4 rounded-full text-base shadow-lg hover:shadow-2xl transition-all duration-300 shine-effect link-glow w-full text-center">
+                    🔥Payroll Boss Elite Club 👑| Infos & Actus
+                </a>
+                <a href="https://discord.gg/p9EDZJn3jh"
+                    target="_blank"
+                    class="bg-blue-600 text-white font-bold py-1.5 px-4 rounded-full text-base shadow-lg hover:shadow-2xl transition-all duration-300 shine-effect link-glow w-full text-center">
+                    🔥 Payroll Boss Elite Club : Le Hub Paie & Progrès 📈
+                </a>
+                <a href="https://www.notion.so/25bbc1d2740880ffa554ea7f622fcb0a?v=25bbc1d2740881229dc3000ce10642b0"
+                    target="_blank"
+                    class="bg-purple-600 text-white font-bold py-1.5 px-4 rounded-full text-base shadow-lg hover:shadow-2xl transition-all duration-300 shine-effect link-glow w-full text-center">
+                    ✨ The Nexus✨Projet Tech Academy 🚀🎉- 💼 Pôle Gestionnaire de Paie 💰-#
+                </a>
+            </div>
+        </header>
+
+        <div id="tabs-container" class="flex flex-wrap justify-center mb-8 gap-4">
+            <!-- Boutons d'intervenants générés par JS -->
+        </div>
+
+        <div id="sessions-container" class="grid gap-6">
+            <!-- Contenu des sessions généré par JS -->
+        </div>
+
+        <div id="session-modal" class="modal">
+            <div class="modal-content text-center">
+                <span class="close-button" onclick="closeModal()">&times;</span>
+                <h2 id="modal-title" class="text-2xl font-bold text-yellow-400 mb-4"></h2>
+                <p id="modal-date" class="text-gray-300 mb-2"></p>
+                <p id="modal-speaker" class="text-gray-400 mb-4"></p>
+                <a id="modal-link" href="#" target="_blank"
+                   class="inline-block bg-fuchsia-600 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg hover:bg-fuchsia-700 transition-colors duration-300 shine-effect mt-4">
+                    Accéder au Live
+                </a>
+                
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-8 mb-4 text-center text-gray-400">
+        <p>Création par <span class="font-extrabold text-white text-xl">🔥Énervyx🔥</span></p>
+    </footer>
+
+    <script>
+        const data = [
+            { intervenant: "Christèle LECOINTE", date: "28/02/2024", titre: "ADMINISTRATION DU PERSONNEL : Les formalités d'embauche", lien: "https://app.comptalia.com/v3/events/65790/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "31/03/2025", titre: "DÉPLOIEMENT DE LA STRATÉGIE RH... Rémunération, politique RH et digitalisation", lien: "https://app.comptalia.com/v3/events/83034/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "15/01/2024", titre: "Filière RH - Le temps de travail", lien: "https://app.comptalia.com/v3/events/63116/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "07/10/2024", titre: "L'inspection du travail", lien: "https://app.comptalia.com/v3/events/74925/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "11/02/2025", titre: "L'URSSAF et le controle URSSAF", lien: "https://app.comptalia.com/v3/events/84592/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "03/03/2025", titre: "LA GRÈVE ET LE LOCK-OUT", lien: "https://app.comptalia.com/v3/events/83039/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "05/04/2024", titre: "La rédaction du contrat de travail", lien: "https://app.comptalia.com/v3/events/65535/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "12/04/2024", titre: "La rupture conventionnelle", lien: "https://app.comptalia.com/v3/events/68503/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "09/04/2024", titre: "Le comité social et économique (CSE)", lien: "https://app.comptalia.com/v3/events/68413/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "17/03/2025", titre: "LE COMITÉ SOCIAL ET ÉCONOMIQUE (CSE) - 1/2", lien: "https://app.comptalia.com/v3/events/83040/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "24/03/2025", titre: "LE COMITÉ SOCIAL ET ÉCONOMIQUE (CSE) - 2/2", lien: "https://app.comptalia.com/v3/events/83041/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "30/01/2025", titre: "Le contrat de travail temporaire (l'intérim)", lien: "https://app.comptalia.com/v3/events/82087/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "26/02/2024", titre: "LE CONTRAT DE TRAVAIL TEMPORAIRE (l'intérim)", lien: "https://app.comptalia.com/v3/events/65235/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "25/03/2024", titre: "Les instances représentatives du personnel (IRP)", lien: "https://app.comptalia.com/v3/events/65536/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "10/03/2025", titre: "MANAGEMENT DU SERVICE RESSOURCES HUMAINES : RH et prévention des RPS", lien: "https://app.comptalia.com/v3/events/83035/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "14/03/2024", titre: "PILOTAGE DE L'ADMINISTRATION DU PERSONNEL : Les différentes formes de ruptures", lien: "https://app.comptalia.com/v3/events/66284/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "07/03/2024", titre: "PILOTAGE DE L'ADMINISTRATION DU PERSONNEL : Rémunération - salaire, participation...", lien: "https://app.comptalia.com/v3/events/65567/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "22/04/2024", titre: "PILOTER LA PERFORMANCE DES RH... Le contentieux en droit du travail", lien: "https://app.comptalia.com/v3/events/68328/stream?type=0" },
+            { intervenant: "Christèle LECOINTE", date: "28/04/2025", titre: "PILOTER LA PERFORMANCE DES RH... Le controle de l'inspection du travail", lien: "https://app.comptalia.com/v3/events/83036/stream?type=0" },
+            { intervenant: "Anaïs Rehibi", date: "11/06/2025", titre: "CE QUE L'ON APPELLE \"BULLETINS MODÈLES\" SUR SAGE PAIE OU PROFIL DE PAIE | Prise en main de Sage", lien: "https://app.comptalia.com/v3/events/89208/stream?type=0" },
+            { intervenant: "Anaïs Rehibi", date: "03/04/2025", titre: "L'ENVIRONNEMENT SAGE : Ouvrir une base, créer un dossier, se familiariser avec les rubriques", lien: "https://app.comptalia.com/v3/events/86970/stream" },
+            { intervenant: "Dimitri Niepceron", date: "21/01/2025", titre: "Sage Paie : Installation de SAGE sur Mac", lien: "https://app.comptalia.com/v3/events/82080/stream" },
+            { intervenant: "Dimitri Niepceron", date: "20/01/2025", titre: "Sage Paie : Installation de SAGE sur PC (environnement Windows)", lien: "https://app.comptalia.com/v3/events/82081/stream" },
+            { intervenant: "Henda Ben Jedla", date: "26/03/2024", titre: "Sage Paie: Se familiariser avec les rubriques et les constantes de Sage Paie", lien: "https://app.comptalia.com/v3/events/65306/stream" },
+            { intervenant: "Henda Ben Jedla", date: "27/03/2024", titre: "Sage Paie -Ce que l'on appelle \"Bulletins Modèles\" sur Sage Paie", lien: "https://app.comptalia.com/v3/events/65305/stream" },
+            { intervenant: "Henda Ben Jedla", date: "23/09/2024", titre: "GERER LES PROFILS DE PAIE SUR SAGE ET LES INTEGRER DANS LA MODELISATION COMPTABLE", lien: "https://app.comptalia.com/v3/events/74883/stream" },
+            { intervenant: "Henda Ben Jedla", date: "30/10/2024", titre: "Le traitement de la paie et ses subtilités sur Sage Paie", lien: "https://app.comptalia.com/v3/events/77705/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "16/07/2024", titre: "Bases de cotisations et charges sociales | PG-AC 2024-2026 - GC 2024-2026 - PG-SC", lien: "https://app.comptalia.com/v3/events/71055/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "18/12/2024", titre: "Bases de cotisations et charges sociales 2", lien: "https://app.comptalia.com/v3/events/77960/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "19/09/2023", titre: "Pilotage de l'administration du personnel : Notion de base en paie", lien: "https://app.comptalia.com/v3/events/56083/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "08/10/2024", titre: "Base CSG CRDS - Net imposable - Net social - Net à payer/Prélèvement à la source : cas particulier des IJSS subrogées et des contrats courts", lien: "https://app.comptalia.com/v3/events/74933/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "21/01/2025", titre: "Base CSG CRDS - Net imposable - Net social - Net à payer/Prélèvement à la source : cas particulier des IJSS subrogées et des contrats courts", lien: "https://app.comptalia.com/v3/events/81382/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "14/10/2024", titre: "Les fondamentaux de la paie : Les composants du brut (01)", lien: "https://app.comptalia.com/v3/events/72058/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "14/10/2024", titre: "LES FONDAMENTAUX DE LA PAIE : Les composants du brut (02)", lien: "https://app.comptalia.com/v3/events/72059/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "14/10/2024", titre: "LES FONDAMENTAUX DE LA PAIE : Les composants du brut (03)", lien: "https://app.comptalia.com/v3/events/77958/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "21/11/2024", titre: "Rapprochement paie - Comptabilité : Gérer les écarts entre paie et comptabilité", lien: "https://app.comptalia.com/v3/events/74946/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "19/11/2024", titre: "Les paies spécifiques : Les apprentis", lien: "https://app.comptalia.com/v3/events/74942/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "23/12/2024", titre: "Gestion de paie : Cas pratique - Contrôle des bruts et établissement du bulletin de salaire", lien: "https://app.comptalia.com/v3/events/74943/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "23/12/2024", titre: "GESTION DE LA PAIE | Cas pratique - Etablissement d'un bulletin de salaire global", lien: "https://app.comptalia.com/v3/events/83328/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "14/04/2025", titre: "GESTION DE LA PAIE | Cas pratique - Etablissement d'un bulletin de salaire global( la suite)", lien: "https://app.comptalia.com/v3/events/87279/stream?type=0" },
+            { intervenant: "Sophie MARTINEZ", date: "14/04/2025", titre: "GESTION DE LA PAIE : La réduction générale de cotisations patronales - Cas pratique", lien: "https://app.comptalia.com/v3/events/83323/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "18/04/2025", titre: "La réduction générale de cotisations patronales - Approfondir le calcul de la réduction des cotisations patronales.", lien: "https://app.comptalia.com/v3/events/83324/stream" },
+            { intervenant: "Sophie MARTINEZ", date: "22/04/2024", titre: "Les paies spécifiques - Les apprentis", lien: "https://app.comptalia.com/v3/events/83325/stream" },
+            { intervenant: "Maud BAUDOIN", date: "21/10/2024", titre: "Calcul de l'indemnité de licenciement - Cas pratique", lien: "https://app.comptalia.com/v3/events/77356/stream" },
+            { intervenant: "Maud BAUDOIN", date: "11/10/2024", titre: "Calcul des IJSS et cas pratiques - Calcul des IJSS et cas pratique", lien: "https://app.comptalia.com/v3/events/73328/stream" },
+            { intervenant: "Maud BAUDOIN", date: "10/10/2024", titre: "Calcul du maintien de salaire et cas pratique", lien: "https://app.comptalia.com/v3/events/73327/stream" },
+            { intervenant: "Maud BAUDOIN", date: "07/10/2024", titre: "La rémunération brute : congés payés", lien: "https://app.comptalia.com/v3/events/73326/stream?type=0" },
+            { intervenant: "Maud BAUDOIN", date: "04/10/2024", titre: "La rémunération brute : heures complémentaires", lien: "https://app.comptalia.com/v3/events/73325/stream?type=0" },
+            { intervenant: "Maud BAUDOIN", date: "03/10/2024", titre: "Les heures supplémentaires et leur valorisation", lien: "https://app.comptalia.com/v3/events/73324/stream?type=0" },
+            { intervenant: "Maud BAUDOIN", date: "01/10/2024", titre: "Le temps partiel et le calcul de la paie", lien: "https://app.comptalia.com/v3/events/73323/stream?type=0" },
+            { intervenant: "Maud BAUDOIN", date: "19/07/2024", titre: "Les bases de calcul des cotisations sociales", lien: "https://app.comptalia.com/v3/events/71814/stream?type=0" },
+            { intervenant: "Maud BAUDOIN", date: "15/07/2024", titre: "Le calcul de la retenue pour absence / Cas pratique", lien: "https://app.comptalia.com/v3/events/71815/stream?type=0" },
+            { intervenant: "Maud BAUDOIN", date: "09/04/2024", titre: "Les indemnités de licenciement", lien: "https://app.comptalia.com/v3/events/67515/stream?type=0" },
+            { intervenant: "Maud BAUDOIN", date: "26/03/2024", titre: "Calcul des IJSS et cas pratique", lien: "https://app.comptalia.com/v3/events/66359/stream" },
+            { intervenant: "Maud BAUDOIN", date: "25/03/2024", titre: "Calcul du maintien de salaire et cas pratique", lien: "https://app.comptalia.com/v3/events/66354/stream" },
+            { intervenant: "Maud BAUDOIN", date: "12/03/2024", titre: "Congés payés et ICP / Cas pratique", lien: "https://app.comptalia.com/v3/events/65534/stream?type=0" },
+            { intervenant: "Maud BAUDOIN", date: "01/03/2024", titre: "Les heures supplémentaires / complémentaires", lien: "https://app.comptalia.com/v3/events/65341/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "22/05/2025", titre: "PAIE : Primes, Avantages en Nature, Frais professionnel et titres restaurant", lien: "https://app.comptalia.com/v3/events/83406/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "05/05/2025", titre: "Gestion administrative liée au départ des salariés", lien: "https://app.comptalia.com/v3/events/83407/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "17/04/2025", titre: "Gestion administrative liée aux procédures de licenciement et rupture", lien: "https://app.comptalia.com/v3/events/83408/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "10/03/2025", titre: "Déclaration accident du travail, comment la compléter", lien: "https://app.comptalia.com/v3/events/82615/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "13/02/2025", titre: "Gestion administrative liée à l'embauche", lien: "https://app.comptalia.com/v3/events/82614/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "09/12/2024", titre: "PAIE : Primes, Avantages en Nature, Frais professionnel et titres restaurant", lien: "https://app.comptalia.com/v3/events/75289/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "05/11/2024", titre: "Gestion administrative liée au départ des salariés", lien: "https://app.comptalia.com/v3/events/75286/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "29/10/2024", titre: "PAIE : Gestion administrative liée à l'embauche", lien: "https://app.comptalia.com/v3/events/75285/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "17/10/2024", titre: "Déclaration accident du travail", lien: "https://app.comptalia.com/v3/events/75283/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "19/09/2024", titre: "Gestion administrative liée à l'embauche", lien: "https://app.comptalia.com/v3/events/74509/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "18/07/2024", titre: "Gestion administrative liée au départ des salariés", lien: "https://app.comptalia.com/v3/events/71494/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "15/07/2024", titre: "Gestion administrative liée aux procédures de licenciement et rupture", lien: "https://app.comptalia.com/v3/events/71493/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "11/07/2024", titre: "Complétude déclaration accident du travail", lien: "https://app.comptalia.com/v3/events/71492/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "08/07/2024", titre: "Gestion administrative liée à l'embauche", lien: "https://app.comptalia.com/v3/events/71491/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "21/03/2024", titre: "PAIE : Les congés payés", lien: "https://app.comptalia.com/v3/events/66324/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "11/03/2024", titre: "PAIE : La gestion des absences", lien: "https://app.comptalia.com/v3/events/66025/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "08/02/2024", titre: "Déclaration accident du travail", lien: "https://app.comptalia.com/v3/events/64489/stream?type=0" },
+            { intervenant: "Brigitte VENANCIO", date: "05/02/2024", titre: "PAIE : Gestion administrative liée à l'embauche", lien: "https://app.comptalia.com/v3/events/64488/stream?type=0" },
+        ];
+
+        const tabsContainer = document.getElementById('tabs-container');
+        const sessionsContainer = document.getElementById('sessions-container');
+        const sessionModal = document.getElementById('session-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDate = document.getElementById('modal-date');
+        const modalSpeaker = document.getElementById('modal-speaker');
+        const modalLink = document.getElementById('modal-link');
+
+        function formatDate(dateStr) {
+            const [day, month, year] = dateStr.split('/');
+            const date = new Date(`${year}-${month}-${day}`);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('fr-FR', options);
+        }
+
+        function getUniqueSpeakers() {
+            const speakers = data.map(session => session.intervenant);
+            return [...new Set(speakers)];
+        }
+
+        function renderTabs() {
+            const speakers = getUniqueSpeakers();
+            tabsContainer.innerHTML = '';
+            speakers.forEach((speaker, index) => {
+                const button = document.createElement('button');
+                button.textContent = speaker;
+                button.className = `nav-button py-2 px-6 rounded-full font-bold text-lg transition-colors duration-300 ${index === 0 ? 'active' : 'text-white/70 hover:text-white'}`;
+                button.setAttribute('data-speaker', speaker);
+                button.addEventListener('click', () => {
+                    document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    renderSessions(speaker);
+                });
+                tabsContainer.appendChild(button);
+            });
+            // Afficher le premier intervenant par défaut
+            if (speakers.length > 0) {
+                renderSessions(speakers[0]);
+            }
+        }
+
+        function renderSessions(speakerName) {
+            const sessions = data.filter(session => session.intervenant === speakerName).sort((a, b) => {
+                const [dayA, monthA, yearA] = a.date.split('/');
+                const [dayB, monthB, yearB] = b.date.split('/');
+                return new Date(yearA, monthA - 1, dayA) - new Date(yearB, monthB - 1, dayB);
+            });
+            sessionsContainer.innerHTML = '';
+
+            if (sessions.length > 0) {
+                sessions.forEach(session => {
+                    const sessionElement = document.createElement('div');
+                    sessionElement.className = 'session-item p-6 rounded-xl border border-white/20 shadow-lg';
+                    sessionElement.innerHTML = `
+                        <h3 class="text-xl font-bold text-yellow-300">${session.titre}</h3>
+                        <p class="text-gray-300 mt-2"><strong>Date :</strong> ${formatDate(session.date)}</p>
+                        <p class="text-gray-400"><strong>Intervenant :</strong> ${session.intervenant}</p>
+                    `;
+                    sessionElement.addEventListener('click', () => openModal(session));
+                    sessionsContainer.appendChild(sessionElement);
+                });
+            } else {
+                sessionsContainer.innerHTML = `<p class="text-center text-gray-400 text-lg">Aucune session trouvée pour cet intervenant.</p>`;
+            }
+        }
+
+        function openModal(session) {
+            modalTitle.textContent = session.titre;
+            modalDate.textContent = `Date : ${formatDate(session.date)}`;
+            modalSpeaker.textContent = `Intervenant : ${session.intervenant}`;
+            modalLink.href = session.lien;
+            sessionModal.style.display = 'block';
+        }
+
+        function closeModal() {
+            sessionModal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target === sessionModal) {
+                closeModal();
+            }
+        };
+
+        window.onload = function() {
+            renderTabs();
+        }
+    </script>
+</body>
+</html>
