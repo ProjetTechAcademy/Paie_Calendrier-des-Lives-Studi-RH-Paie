@@ -10,7 +10,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #FF6600, #F0C419, #C833A5, #8B0000, #000080, #1472D3);
+            background: linear-gradient(135deg, #000080, #1472D3, #C833A5, #F0C419, #FF6600, #F0C419);
             background-size: 400% 400%;
             animation: gradient-animation 15s ease infinite;
         }
@@ -66,6 +66,7 @@
 
         /* Modal styling */
         .modal {
+            /* Le modal est caché par défaut et s'affichera via JS */
             display: none;
             position: fixed;
             z-index: 100;
@@ -76,18 +77,18 @@
             overflow: auto;
             background-color: rgba(0, 0, 0, 0.7);
             animation: fadeIn 0.3s;
-            display: flex;
+            /* Centrage parfait du contenu */
             align-items: center;
             justify-content: center;
         }
 
         .modal-content {
-            background: linear-gradient(145deg, #0d1117, #1f2937); /* Dégradé bleu nuit pour un effet premium */
+            /* Dégradé de bleu nuit premium et filet lumineux blanc cassé */
+            background: linear-gradient(145deg, #1A202C, #2C3E50);
             margin: 0;
             padding: 30px;
             border-radius: 20px;
-            /* Nouveau box-shadow pour l'effet de filet lumineux blanc cassé */
-            box-shadow: 0 0 5px #e6c2a0, inset 0 0 5px #e6c2a0;
+            box-shadow: 0 0 15px #e6c2a0, inset 0 0 15px #e6c2a0;
             border: 1px solid rgba(255, 255, 255, 0.2);
             max-width: 600px;
             animation: slideIn 0.3s;
